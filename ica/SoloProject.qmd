@@ -1,0 +1,10 @@
+---
+title: "SoloProject"
+format: html
+---
+
+```{r}
+library(sf)
+China_shapes <- read_sf("~/GitHub/portfolio-Alenahan123/ChinaMap/china_country.shp")
+```
+

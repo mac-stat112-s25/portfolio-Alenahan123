@@ -1,0 +1,54 @@
+---
+title: "SoloProjectMap"
+format: html
+---
+
+
+```{r}
+library(sf)
+library(dplyr)
+library(readr)
+
+library(ggplot2)
+
+china_map <- st_read("~/GitHub/portfolio-Alenahan123/ChinaMap/china.shp")
+
+
+province_pop <- read_csv("~/GitHub/portfolio-Alenahan123/ChinaMap/archive Provience/china_provinces_population.csv")
+
+
+province_map <- tibble::tibble(
+  `PROVINCE NAME` = c("Anhui", "Beijing", "Chongqing", "Fujian", "Gansu", "Guangdong", "Guangxi",
+                      "Guizhou", "Hainan", "Hebei", "Heilongjiang", "Henan", "Hong Kong", "Hubei",
+                      "Hunan", "Inner Mongolia", "Jiangsu", "Jiangxi", "Jilin", "Liaoning", "Macau",
+                      "Ningxia", "Qinghai", "Shaanxi", "Shandong", "Shanghai", "Shanxi", "Sichuan",
+                      "Tianjin", "Tibet", "Xinjiang", "Yunnan", "Zhejiang"),
+  FCNAME = c("安徽省", "北京市", "重庆市", "福建省", "甘肃省", "广东省", "广西壮族自治区",
+             "贵州省", "海南省", "河北省", "黑龙江省", "河南省", "香港特别行政区", "湖北省",
+             "湖南省", "内蒙古自治区", "江苏省", "江西省", "吉林省", "辽宁省", "澳门特别行政区",
+             "宁夏回族自治区", "青海省", "陕西省", "山东省", "上海市", "山西省", "四川省",
+             "天津市", "西藏自治区", "新疆维吾尔自治区", "云南省", "浙江省")
+)
+
+province_pop <- left_join(province_pop, province_map, by = "PROVINCE NAME")
+
+
+
+china_map <- china_map %>%
+  left_join(province_pop, by = "FCNAME") %>%
+  mutate(area_km2 = as.numeric(st_area(geometry)) / 1e6,
+         pop_density = POPULATION / area_km2)
+
+
+ggplot(china_map) +
+  geom_sf(aes(fill = log10(pop_density))) +
+  scale_fill_viridis_c(option = "plasma", na.value = "gray90") +
+  labs(
+    title = "Population Density of Chinese Provinces (log scale)",
+    fill = "log10(People / km²)"
+  ) +
+  theme_minimal()
+
+```
+
+

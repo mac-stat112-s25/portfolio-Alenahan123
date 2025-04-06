@@ -30,6 +30,7 @@ book:
       - bw/bw-tri.qmd
       - bw/bw-quad.qmd
       - bw/bw-spatial.qmd
+      - bw/SoloProjectMap.qmd
 
     - part: "In-class Activities"
       chapters: 
@@ -37,6 +38,11 @@ book:
       - ica/ica-bi.qmd
       - ica/ica-multi.qmd
       - ica/ica-spatial.qmd
+      
+    - part: "Summary"
+      chapters: 
+      - Summarycard.qmd
+      
 
 format:
   html:
