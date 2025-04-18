@@ -992,56 +992,53 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb13-4"><a href="#cb13-4"></a><span class="co">---</span></span>
 <span id="cb13-5"><a href="#cb13-5"></a></span>
 <span id="cb13-6"><a href="#cb13-6"></a></span>
-<span id="cb13-7"><a href="#cb13-7"></a></span>
-<span id="cb13-8"><a href="#cb13-8"></a></span>
-<span id="cb13-9"><a href="#cb13-9"></a></span>
-<span id="cb13-12"><a href="#cb13-12"></a><span class="in">```{r}</span></span>
-<span id="cb13-13"><a href="#cb13-13"></a><span class="fu">library</span>(sf)</span>
-<span id="cb13-14"><a href="#cb13-14"></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb13-15"><a href="#cb13-15"></a><span class="fu">library</span>(readr)</span>
-<span id="cb13-16"><a href="#cb13-16"></a></span>
-<span id="cb13-17"><a href="#cb13-17"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="in">```{r}</span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="fu">library</span>(sf)</span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb13-12"><a href="#cb13-12"></a><span class="fu">library</span>(readr)</span>
+<span id="cb13-13"><a href="#cb13-13"></a></span>
+<span id="cb13-14"><a href="#cb13-14"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb13-15"><a href="#cb13-15"></a></span>
+<span id="cb13-16"><a href="#cb13-16"></a>china_map <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"~/GitHub/portfolio-Alenahan123/ChinaMap/china.shp"</span>)</span>
+<span id="cb13-17"><a href="#cb13-17"></a></span>
 <span id="cb13-18"><a href="#cb13-18"></a></span>
-<span id="cb13-19"><a href="#cb13-19"></a>china_map <span class="ot">&lt;-</span> <span class="fu">st_read</span>(<span class="st">"~/GitHub/portfolio-Alenahan123/ChinaMap/china.shp"</span>)</span>
+<span id="cb13-19"><a href="#cb13-19"></a>province_pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/GitHub/portfolio-Alenahan123/ChinaMap/archive Provience/china_provinces_population.csv"</span>)</span>
 <span id="cb13-20"><a href="#cb13-20"></a></span>
 <span id="cb13-21"><a href="#cb13-21"></a></span>
-<span id="cb13-22"><a href="#cb13-22"></a>province_pop <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"~/GitHub/portfolio-Alenahan123/ChinaMap/archive Provience/china_provinces_population.csv"</span>)</span>
-<span id="cb13-23"><a href="#cb13-23"></a></span>
-<span id="cb13-24"><a href="#cb13-24"></a></span>
-<span id="cb13-25"><a href="#cb13-25"></a>province_map <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
-<span id="cb13-26"><a href="#cb13-26"></a>  <span class="st">`</span><span class="at">PROVINCE NAME</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Anhui"</span>, <span class="st">"Beijing"</span>, <span class="st">"Chongqing"</span>, <span class="st">"Fujian"</span>, <span class="st">"Gansu"</span>, <span class="st">"Guangdong"</span>, <span class="st">"Guangxi"</span>,</span>
-<span id="cb13-27"><a href="#cb13-27"></a>                      <span class="st">"Guizhou"</span>, <span class="st">"Hainan"</span>, <span class="st">"Hebei"</span>, <span class="st">"Heilongjiang"</span>, <span class="st">"Henan"</span>, <span class="st">"Hong Kong"</span>, <span class="st">"Hubei"</span>,</span>
-<span id="cb13-28"><a href="#cb13-28"></a>                      <span class="st">"Hunan"</span>, <span class="st">"Inner Mongolia"</span>, <span class="st">"Jiangsu"</span>, <span class="st">"Jiangxi"</span>, <span class="st">"Jilin"</span>, <span class="st">"Liaoning"</span>, <span class="st">"Macau"</span>,</span>
-<span id="cb13-29"><a href="#cb13-29"></a>                      <span class="st">"Ningxia"</span>, <span class="st">"Qinghai"</span>, <span class="st">"Shaanxi"</span>, <span class="st">"Shandong"</span>, <span class="st">"Shanghai"</span>, <span class="st">"Shanxi"</span>, <span class="st">"Sichuan"</span>,</span>
-<span id="cb13-30"><a href="#cb13-30"></a>                      <span class="st">"Tianjin"</span>, <span class="st">"Tibet"</span>, <span class="st">"Xinjiang"</span>, <span class="st">"Yunnan"</span>, <span class="st">"Zhejiang"</span>),</span>
-<span id="cb13-31"><a href="#cb13-31"></a>  <span class="at">FCNAME =</span> <span class="fu">c</span>(<span class="st">"安徽省"</span>, <span class="st">"北京市"</span>, <span class="st">"重庆市"</span>, <span class="st">"福建省"</span>, <span class="st">"甘肃省"</span>, <span class="st">"广东省"</span>, <span class="st">"广西壮族自治区"</span>,</span>
-<span id="cb13-32"><a href="#cb13-32"></a>             <span class="st">"贵州省"</span>, <span class="st">"海南省"</span>, <span class="st">"河北省"</span>, <span class="st">"黑龙江省"</span>, <span class="st">"河南省"</span>, <span class="st">"香港特别行政区"</span>, <span class="st">"湖北省"</span>,</span>
-<span id="cb13-33"><a href="#cb13-33"></a>             <span class="st">"湖南省"</span>, <span class="st">"内蒙古自治区"</span>, <span class="st">"江苏省"</span>, <span class="st">"江西省"</span>, <span class="st">"吉林省"</span>, <span class="st">"辽宁省"</span>, <span class="st">"澳门特别行政区"</span>,</span>
-<span id="cb13-34"><a href="#cb13-34"></a>             <span class="st">"宁夏回族自治区"</span>, <span class="st">"青海省"</span>, <span class="st">"陕西省"</span>, <span class="st">"山东省"</span>, <span class="st">"上海市"</span>, <span class="st">"山西省"</span>, <span class="st">"四川省"</span>,</span>
-<span id="cb13-35"><a href="#cb13-35"></a>             <span class="st">"天津市"</span>, <span class="st">"西藏自治区"</span>, <span class="st">"新疆维吾尔自治区"</span>, <span class="st">"云南省"</span>, <span class="st">"浙江省"</span>)</span>
-<span id="cb13-36"><a href="#cb13-36"></a>)</span>
+<span id="cb13-22"><a href="#cb13-22"></a>province_map <span class="ot">&lt;-</span> tibble<span class="sc">::</span><span class="fu">tibble</span>(</span>
+<span id="cb13-23"><a href="#cb13-23"></a>  <span class="st">`</span><span class="at">PROVINCE NAME</span><span class="st">`</span> <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"Anhui"</span>, <span class="st">"Beijing"</span>, <span class="st">"Chongqing"</span>, <span class="st">"Fujian"</span>, <span class="st">"Gansu"</span>, <span class="st">"Guangdong"</span>, <span class="st">"Guangxi"</span>,</span>
+<span id="cb13-24"><a href="#cb13-24"></a>                      <span class="st">"Guizhou"</span>, <span class="st">"Hainan"</span>, <span class="st">"Hebei"</span>, <span class="st">"Heilongjiang"</span>, <span class="st">"Henan"</span>, <span class="st">"Hong Kong"</span>, <span class="st">"Hubei"</span>,</span>
+<span id="cb13-25"><a href="#cb13-25"></a>                      <span class="st">"Hunan"</span>, <span class="st">"Inner Mongolia"</span>, <span class="st">"Jiangsu"</span>, <span class="st">"Jiangxi"</span>, <span class="st">"Jilin"</span>, <span class="st">"Liaoning"</span>, <span class="st">"Macau"</span>,</span>
+<span id="cb13-26"><a href="#cb13-26"></a>                      <span class="st">"Ningxia"</span>, <span class="st">"Qinghai"</span>, <span class="st">"Shaanxi"</span>, <span class="st">"Shandong"</span>, <span class="st">"Shanghai"</span>, <span class="st">"Shanxi"</span>, <span class="st">"Sichuan"</span>,</span>
+<span id="cb13-27"><a href="#cb13-27"></a>                      <span class="st">"Tianjin"</span>, <span class="st">"Tibet"</span>, <span class="st">"Xinjiang"</span>, <span class="st">"Yunnan"</span>, <span class="st">"Zhejiang"</span>),</span>
+<span id="cb13-28"><a href="#cb13-28"></a>  <span class="at">FCNAME =</span> <span class="fu">c</span>(<span class="st">"安徽省"</span>, <span class="st">"北京市"</span>, <span class="st">"重庆市"</span>, <span class="st">"福建省"</span>, <span class="st">"甘肃省"</span>, <span class="st">"广东省"</span>, <span class="st">"广西壮族自治区"</span>,</span>
+<span id="cb13-29"><a href="#cb13-29"></a>             <span class="st">"贵州省"</span>, <span class="st">"海南省"</span>, <span class="st">"河北省"</span>, <span class="st">"黑龙江省"</span>, <span class="st">"河南省"</span>, <span class="st">"香港特别行政区"</span>, <span class="st">"湖北省"</span>,</span>
+<span id="cb13-30"><a href="#cb13-30"></a>             <span class="st">"湖南省"</span>, <span class="st">"内蒙古自治区"</span>, <span class="st">"江苏省"</span>, <span class="st">"江西省"</span>, <span class="st">"吉林省"</span>, <span class="st">"辽宁省"</span>, <span class="st">"澳门特别行政区"</span>,</span>
+<span id="cb13-31"><a href="#cb13-31"></a>             <span class="st">"宁夏回族自治区"</span>, <span class="st">"青海省"</span>, <span class="st">"陕西省"</span>, <span class="st">"山东省"</span>, <span class="st">"上海市"</span>, <span class="st">"山西省"</span>, <span class="st">"四川省"</span>,</span>
+<span id="cb13-32"><a href="#cb13-32"></a>             <span class="st">"天津市"</span>, <span class="st">"西藏自治区"</span>, <span class="st">"新疆维吾尔自治区"</span>, <span class="st">"云南省"</span>, <span class="st">"浙江省"</span>)</span>
+<span id="cb13-33"><a href="#cb13-33"></a>)</span>
+<span id="cb13-34"><a href="#cb13-34"></a></span>
+<span id="cb13-35"><a href="#cb13-35"></a>province_pop <span class="ot">&lt;-</span> <span class="fu">left_join</span>(province_pop, province_map, <span class="at">by =</span> <span class="st">"PROVINCE NAME"</span>)</span>
+<span id="cb13-36"><a href="#cb13-36"></a></span>
 <span id="cb13-37"><a href="#cb13-37"></a></span>
-<span id="cb13-38"><a href="#cb13-38"></a>province_pop <span class="ot">&lt;-</span> <span class="fu">left_join</span>(province_pop, province_map, <span class="at">by =</span> <span class="st">"PROVINCE NAME"</span>)</span>
-<span id="cb13-39"><a href="#cb13-39"></a></span>
-<span id="cb13-40"><a href="#cb13-40"></a></span>
-<span id="cb13-41"><a href="#cb13-41"></a></span>
-<span id="cb13-42"><a href="#cb13-42"></a>china_map <span class="ot">&lt;-</span> china_map <span class="sc">%&gt;%</span></span>
-<span id="cb13-43"><a href="#cb13-43"></a>  <span class="fu">left_join</span>(province_pop, <span class="at">by =</span> <span class="st">"FCNAME"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb13-44"><a href="#cb13-44"></a>  <span class="fu">mutate</span>(<span class="at">area_km2 =</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(geometry)) <span class="sc">/</span> <span class="fl">1e6</span>,</span>
-<span id="cb13-45"><a href="#cb13-45"></a>         <span class="at">pop_density =</span> POPULATION <span class="sc">/</span> area_km2)</span>
-<span id="cb13-46"><a href="#cb13-46"></a></span>
-<span id="cb13-47"><a href="#cb13-47"></a></span>
-<span id="cb13-48"><a href="#cb13-48"></a><span class="fu">ggplot</span>(china_map) <span class="sc">+</span></span>
-<span id="cb13-49"><a href="#cb13-49"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">log10</span>(pop_density))) <span class="sc">+</span></span>
-<span id="cb13-50"><a href="#cb13-50"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">na.value =</span> <span class="st">"gray90"</span>) <span class="sc">+</span></span>
-<span id="cb13-51"><a href="#cb13-51"></a>  <span class="fu">labs</span>(</span>
-<span id="cb13-52"><a href="#cb13-52"></a>    <span class="at">title =</span> <span class="st">"Population Density of Chinese Provinces (log scale)"</span>,</span>
-<span id="cb13-53"><a href="#cb13-53"></a>    <span class="at">fill =</span> <span class="st">"log10(People / km²)"</span></span>
-<span id="cb13-54"><a href="#cb13-54"></a>  ) <span class="sc">+</span></span>
-<span id="cb13-55"><a href="#cb13-55"></a>  <span class="fu">theme_minimal</span>()</span>
-<span id="cb13-56"><a href="#cb13-56"></a></span>
-<span id="cb13-57"><a href="#cb13-57"></a><span class="in">```</span></span>
-<span id="cb13-58"><a href="#cb13-58"></a></span>
+<span id="cb13-38"><a href="#cb13-38"></a></span>
+<span id="cb13-39"><a href="#cb13-39"></a>china_map <span class="ot">&lt;-</span> china_map <span class="sc">%&gt;%</span></span>
+<span id="cb13-40"><a href="#cb13-40"></a>  <span class="fu">left_join</span>(province_pop, <span class="at">by =</span> <span class="st">"FCNAME"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-41"><a href="#cb13-41"></a>  <span class="fu">mutate</span>(<span class="at">area_km2 =</span> <span class="fu">as.numeric</span>(<span class="fu">st_area</span>(geometry)) <span class="sc">/</span> <span class="fl">1e6</span>,</span>
+<span id="cb13-42"><a href="#cb13-42"></a>         <span class="at">pop_density =</span> POPULATION <span class="sc">/</span> area_km2)</span>
+<span id="cb13-43"><a href="#cb13-43"></a></span>
+<span id="cb13-44"><a href="#cb13-44"></a></span>
+<span id="cb13-45"><a href="#cb13-45"></a><span class="fu">ggplot</span>(china_map) <span class="sc">+</span></span>
+<span id="cb13-46"><a href="#cb13-46"></a>  <span class="fu">geom_sf</span>(<span class="fu">aes</span>(<span class="at">fill =</span> <span class="fu">log10</span>(pop_density))) <span class="sc">+</span></span>
+<span id="cb13-47"><a href="#cb13-47"></a>  <span class="fu">scale_fill_viridis_c</span>(<span class="at">option =</span> <span class="st">"plasma"</span>, <span class="at">na.value =</span> <span class="st">"gray90"</span>) <span class="sc">+</span></span>
+<span id="cb13-48"><a href="#cb13-48"></a>  <span class="fu">labs</span>(</span>
+<span id="cb13-49"><a href="#cb13-49"></a>    <span class="at">title =</span> <span class="st">"Population Density of Chinese Provinces (log scale)"</span>,</span>
+<span id="cb13-50"><a href="#cb13-50"></a>    <span class="at">fill =</span> <span class="st">"log10(People / km²)"</span></span>
+<span id="cb13-51"><a href="#cb13-51"></a>  ) <span class="sc">+</span></span>
+<span id="cb13-52"><a href="#cb13-52"></a>  <span class="fu">theme_minimal</span>()</span>
+<span id="cb13-53"><a href="#cb13-53"></a></span>
+<span id="cb13-54"><a href="#cb13-54"></a><span class="in">```</span></span>
+<span id="cb13-55"><a href="#cb13-55"></a></span>
 </code><button title="Copy to Clipboard" class="code-copy-button" data-in-quarto-modal=""><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
