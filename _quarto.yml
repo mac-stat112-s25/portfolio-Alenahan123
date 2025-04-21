@@ -38,6 +38,12 @@ book:
       - ica/ica-bi.qmd
       - ica/ica-multi.qmd
       - ica/ica-spatial.qmd
+      - ica/ica-wrangling.qmd
+      - ica/ica-dates.qmd
+      - ica/Reshaping.qmd
+      - ica/Joining.qmd
+      - ica/Factors.qmd
+      - ica/ica-strings.qmd
       
     - part: "Summary"
       chapters: 
