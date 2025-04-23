@@ -47,7 +47,8 @@ book:
       
     - part: "Summary"
       chapters: 
-      - Summarycard.qmd
+      - Summarycard for 1.qmd
+      - Summarycard for 2.qmd
       
 
 format:

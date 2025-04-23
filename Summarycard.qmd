@@ -1,7 +1,0 @@
----
-title: "Summary card"
----
-
-![](Summarycard.pdf){width=700 height=700}
-![](exam2SummaryCard.pdf){width=700 height=700}
-![](exam2SummaryCard 2.pdf){width=700 height=700}
