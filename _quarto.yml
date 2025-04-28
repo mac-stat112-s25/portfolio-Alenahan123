@@ -4,7 +4,7 @@ project:
 
 book:
   title: "COMP/STAT112 Notebook"
-  author: "Your Name Here"
+  author: "Alena"
   date: today
   reader-mode: true
   page-navigation: true
@@ -13,7 +13,7 @@ book:
   
   
   sidebar:
-    title: "Your Name Here"
+    title: "Alena"
     collapse-level: 2
     style: "docked"
     pinned: true
@@ -31,6 +31,8 @@ book:
       - bw/bw-quad.qmd
       - bw/bw-spatial.qmd
       - bw/SoloProjectMap.qmd
+      - bw/Exam 1.qmd
+      - bw/Exam 2.qmd
 
     - part: "In-class Activities"
       chapters: 
@@ -64,10 +66,14 @@ format:
     code-link: true
     code-line-numbers: true
     code-tools: true
+    code-fold: true
 
 execute:
   cache: false
-  freeze: auto
+  freeze: false
+  error: false
+  warning: false
+  echo: true
 
 editor: 
   markdown:

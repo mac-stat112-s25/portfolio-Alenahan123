@@ -1,5 +1,5 @@
 ---
-title: "SoloProjectMap"
+title: "Solo Project Map"
 format: html
 ---
 
@@ -8,14 +8,12 @@ format: html
 library(sf)
 library(dplyr)
 library(readr)
-
 library(ggplot2)
+
 
 china_map <- st_read("~/GitHub/portfolio-Alenahan123/ChinaMap/china.shp")
 
-
 province_pop <- read_csv("~/GitHub/portfolio-Alenahan123/ChinaMap/archive Provience/china_provinces_population.csv")
-
 
 province_map <- tibble::tibble(
   `PROVINCE NAME` = c("Anhui", "Beijing", "Chongqing", "Fujian", "Gansu", "Guangdong", "Guangxi",
@@ -32,22 +30,25 @@ province_map <- tibble::tibble(
 
 province_pop <- left_join(province_pop, province_map, by = "PROVINCE NAME")
 
-
-
 china_map <- china_map %>%
   left_join(province_pop, by = "FCNAME") %>%
   mutate(area_km2 = as.numeric(st_area(geometry)) / 1e6,
          pop_density = POPULATION / area_km2)
 
-
 ggplot(china_map) +
-  geom_sf(aes(fill = log10(pop_density))) +
-  scale_fill_viridis_c(option = "plasma", na.value = "gray90") +
+  geom_sf(aes(fill = log10(pop_density)), color = "white", size = 0.2) + 
+  scale_fill_viridis_c(option = "inferno", na.value = "gray90", direction = -1) +  
   labs(
     title = "Population Density of Chinese Provinces (log scale)",
-    fill = "log10(People / km²)"
+    fill = "log10(People / km²)",
+    caption = "Data source: China Provinces Population Dataset| Created by Alena Han | April 1, 2025"
   ) +
-  theme_minimal()
+  theme_void() +  
+  theme(
+    plot.title = element_text(hjust = 0.5, size = 18, face = "bold"),
+    plot.caption = element_text(hjust = 0.5, size = 10),
+    legend.position = "right"
+  )
 
 ```
 

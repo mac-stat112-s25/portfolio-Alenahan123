@@ -1,0 +1,135 @@
+---
+title: "Exam 1"
+format: html
+---
+
+---
+title: "Exam1"
+format: html
+---
+Install package
+```{r}
+library(tidyverse)
+library(tidytuesdayR)
+```
+Get data
+```{r}
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food_consumption
+```
+Understand Data
+
+```{r}
+dim(fc)
+dim(tuesdata)
+head(fc)
+head(tuesdata)
+structure(fc)
+```
+Grand Research Question
+What does the consumption of each food category in each country look like?
+```{r}
+library(rnaturalearth)
+library(rnaturalearthdata)
+library(sf)
+library(dplyr)
+library(ggplot2)
+
+beef_data <- fc %>%
+  filter(food_category == "Beef") %>%
+  group_by(country) %>%
+  summarize(beef_consumption = sum(consumption))
+
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+
+world_merged <- world %>%
+  left_join(beef_data, by = c("name" = "country"))
+
+
+ggplot(data = world_merged) +
+  geom_sf(aes(fill = beef_consumption)) +
+  scale_fill_viridis_c(option = "plasma", na.value = "grey90") +
+  labs(
+    title = "Beef Consumption per Person per Year (kg)",
+    fill = "kg/year"
+  ) +
+  theme_minimal()
+
+```
+
+```{r}
+library(dplyr)
+library(ggplot2)
+library(rnaturalearth)
+library(sf)
+library(viridis)
+
+fc <- fc %>%
+  mutate(country = trimws(as.character(country)))
+
+
+world <- ne_countries(scale = "medium", returnclass = "sf")
+
+
+plot_food_map <- function(food_name) {
+  food_data <- fc %>%
+    filter(food_category == food_name) %>%
+    group_by(country) %>%
+    summarize(consumption = sum(consumption, na.rm = TRUE))
+  
+  world_joined <- world %>%
+    left_join(food_data, by = c("name" = "country"))
+  
+  ggplot(world_joined) +
+    geom_sf(aes(fill = consumption)) +
+    scale_fill_viridis_c(option = "plasma", na.value = "grey90") +
+    labs(
+      title = paste(food_name, "Consumption per Person per Year (kg)"),
+      fill = "kg/year",
+      caption = paste("Data source: TidyTuesday 2020-02-18 |",
+                      "Map shows average annual per capita consumption of", food_name, "by country.")
+    ) +
+    theme_minimal() +
+    theme(plot.caption = element_text(hjust = 0, size = 8, color = "gray40"))
+}
+
+
+```
+
+```{r}
+plot_food_map("Pork")
+```
+```{r}
+plot_food_map("Poultry")
+
+```
+```{r}
+plot_food_map("Lamb & Goat")
+```
+```{r}
+plot_food_map("Fish")
+```
+```{r}
+plot_food_map("Eggs")
+
+```
+```{r}
+plot_food_map("Milk - inc. cheese")
+```
+
+```{r}
+plot_food_map("Wheat and Wheat Products")
+```
+```{r}
+plot_food_map("Rice")
+```
+```{r}
+plot_food_map("Soybeans")
+```
+```{r}
+plot_food_map("Nuts inc. Peanut Butter")
+```
+
+

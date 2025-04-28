@@ -3,5 +3,5 @@ title: "Summary Card for Exam 2"
 format: html
 ---
 
-![](exam2SummaryCard.pdf){width=1000 height=1000}
-![](exam2SummaryCard 2.pdf){width=700 height=700}
+![](exam2SummaryCard.png){width=1000 height=1000}
+![](exam2SummaryCard 2.png){width=700 height=700}

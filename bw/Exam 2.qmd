@@ -1,0 +1,155 @@
+---
+title: "Exam 2"
+format: html
+---
+
+Load Data
+```{r}
+library(tidytuesdayR)
+library(tidyverse)
+library(rnaturalearth)
+library(sf)
+```
+Load Data
+```{r}
+tuesdata <- tt_load('2020-02-18')
+fc <- tuesdata$food_consumption
+```
+Inspect Data
+```{r}
+str(fc)
+```
+
+```{r}
+head(fc,22)
+```
+```{r}
+fc_clean <- fc %>%
+  mutate(food_category = case_when(
+    food_category == "Lamb & Goat" ~ "Lamb",
+    food_category == "Milk - inc. cheese" ~ "Dairy",
+    food_category == "Wheat and Wheat Products" ~ "Wheat",
+    food_category == "Nuts inc. Peanut Butter" ~ "Nuts",
+    TRUE ~ food_category  
+  ))
+
+```
+
+```{r}
+head(fc_clean,22)
+```
+
+Research Question 1
+
+Which five countries consume the most food are?
+-show the answer as a 2 column table and as a gragh
+-sort the countries based on consumption from largest to smallest
+-Use the cleaned datafrme
+```{r}
+top5_consumers <- fc_clean %>%
+  group_by(country) %>%
+  summarize(total_consumption = sum(consumption, na.rm = TRUE)) %>%
+  arrange(desc(total_consumption)) %>%
+  slice_head(n = 5)
+
+top5_consumers
+
+```
+```{r}
+ggplot(top5_consumers, aes(x = reorder(country, -total_consumption), y = total_consumption, fill = country)) +
+  geom_col() +
+  labs(
+    title = "Top 5 Countries by Total Food Consumption",
+    x = "Country",
+    y = "Total Consumption (kg/person/year)",
+    caption = "Source: TidyTuesday 2020-02-18. 
+    Based on total per capita consumption summed across all food categories."
+  ) +
+  theme_minimal() +
+  theme(legend.position = "none")
+
+```
+
+Which top 5 countries consume each food are?
+- show the answer as a 3-column table(show the food category as the first column follwed by country and consumption) and as a gragh
+-For each food, sort the countries based on consumption from largest to smallest
+-Use the cleaned dataframe
+
+```{r}
+top5_each_food <- fc_clean %>%
+  group_by(food_category) %>%
+  slice_max(order_by = consumption, n = 5) %>%
+  ungroup()
+top5_each_food <- fc_clean %>%
+  group_by(food_category, country) %>%
+  summarize(consumption = sum(consumption, na.rm = TRUE), .groups = "drop") %>%
+  group_by(food_category) %>%
+  slice_max(order_by = consumption, n = 5) %>%
+  ungroup()
+top5_each_food
+
+```
+
+```{r}
+
+library(forcats)
+
+n_pages <- length(unique(top5_each_food$food_category))
+
+for (i in 1:n_pages) {
+  p <- ggplot(top5_each_food, aes(x = fct_reorder(country, consumption), y = consumption, fill = country)) +
+    geom_col(show.legend = FALSE) +
+    coord_flip() +
+    ggforce::facet_wrap_paginate(~ food_category, scales = "free_y", ncol = 1, nrow = 1, page = i) +
+    labs(
+      title = "Top 5 Countries Consuming Each Food Category",
+      x = "Country",
+      y = "Consumption (kg/person/year)",
+      caption = paste("Source: TidyTuesday 2020-02-18. Page", i, "of", n_pages)
+    ) +
+    theme_minimal(base_size = 11) +
+    theme(
+      strip.text = element_text(size = 11, face = "bold"),
+      plot.caption = element_text(hjust = 0, size = 8, color = "gray40")
+    )
+  
+  print(p)  
+}
+
+
+
+```
+Research Question
+
+What does the consumption of each food look like?
+-show a chropleth map for each food.
+-use the cleaned dataframe
+```{r}
+ne_countries(returnclass = "sf") |>
+  select(name, geometry) |>
+  mutate(name = ifelse(name == "United States of America", "USA", name)) |>
+  mutate(name = ifelse(name == "Bosnia and Herz.", "Bosnia and Herzegovina", name)) |>
+  mutate(name = ifelse(name == "Czechia", "Czech Republic", name)) |>
+  mutate(name = ifelse(name == "Taiwan", "Taiwan. ROC", name)) |>
+  left_join(
+    fc_clean |>
+      select(-co2_emmission) |>  
+      group_by(food_category) |>
+      mutate(consumption = (consumption - mean(consumption)) / sd(consumption)) |> 
+      ungroup() |>
+      pivot_wider(names_from = food_category, values_from = consumption), 
+    by = join_by(name == country)  
+  ) |>
+  pivot_longer(cols = -c(name, geometry), names_to = "food_category", values_to = "consumption") |>  
+  ggplot() +
+  labs(
+    title = "Standardized Food Consumption by Country and Category",
+    fill = "Consumption (z-score)",
+    caption = "Source: TidyTuesday 2020-02-18. Consumption values standardized (z-score) by food category.\nMap shows relative per capita food consumption across countries."
+  )+
+  geom_sf(aes(fill = consumption)) +
+  facet_wrap(~ food_category) +
+  theme(legend.position = "bottom")
+
+```
+
