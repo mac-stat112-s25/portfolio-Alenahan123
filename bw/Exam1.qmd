@@ -1,13 +1,7 @@
 ---
 title: "Exam 1"
-format: html
 ---
 
----
-title: "Exam1"
-format: html
----
-Install package
 ```{r}
 library(tidyverse)
 library(tidytuesdayR)

@@ -1,6 +1,5 @@
 ---
 title: "Solo Project Map"
-format: html
 ---
 
 

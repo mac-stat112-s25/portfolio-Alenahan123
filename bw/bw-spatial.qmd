@@ -29,12 +29,10 @@ library(dplyr)
 library(readr)
 library(maps)
 
-# 1. 读数据
 olympics <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2024/2024-08-06/olympics.csv')
 
-# 2. 统计每个国家得牌数量
 medals_by_country <- olympics %>%
-  filter(!is.na(medal)) %>%   # 只统计有拿到奖牌的
+  filter(!is.na(medal)) %>%   
   group_by(team) %>%
   summarize(medal_count = n())
 
