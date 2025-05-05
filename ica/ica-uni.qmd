@@ -310,16 +310,24 @@ ggplot(hikes, aes(x = elevation)) +
 -   TRY IT! Test out those lines in the chunk below. Was your intuition correct?
 
 ```{r}
+ggplot(hikes, aes(x = elevation)) +
+  geom_density(color = "blue")
 ```
 
 -   Examine the density plot. How does it compare to the histogram? What does it tell you about the *typical* elevation, *variability / range* in elevations, and *shape* of the distribution of *elevations* within this range?
-
+>The density plot provides a smooth curve that peaks at the most common elevation, making it easier to identify the typical or most frequent elevation value.
+The histogram shows this too, but in binned form, which can make the exact typical value less precise depending on bin width.
 
 
 ### Exercise 12: Density Plots vs Histograms {.unnumbered}
 
 The histogram and density plot both allow us to visualize the behavior of a quantitative variable: typical outcome, variability / range, shape, and outliers. What are the pros/cons of each? What do you like/not like about each?
+>Both plots show the range of elevations (minimum to maximum).
+The histogram uses the width of the bars to show where most of the data lies, and where there are few or no values.
+The density plot smooths out these variations, sometimes hiding small gaps in data, but giving a clearer view of the spread and density concentration.
 
+>The density plot excels at showing the shape of the distribution (e.g., unimodal, bimodal, skewed, symmetric) because it's smooth and continuous.
+The histogram can be more sensitive to bin width, which can distort the shape (e.g., too many or too few peaks depending on settings).
 
 ### Exercise 13: Code = communication {.unnumbered}
 

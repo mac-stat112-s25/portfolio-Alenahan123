@@ -3,23 +3,6 @@ title: "Trivariate Viz"
 ---
 
 Use this file to generate a professional looking **trivariate** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
----
-title: "Trivariate Viz"
----
-
-Use this file for practice with the **mulivariate viz** in-class activity.  Refer to the class website for details.
----
-title: "Multivariate Viz"
-number-sections: true
-execute: 
-  warning: false
-fig-height: 2.75
-fig-width: 4.25
-fig-env: 'figure'
-fig-pos: 'h'
-fig-align: center
-code-fold: false
----
 ```{r}
 library(ggplot2)
 library(dplyr)

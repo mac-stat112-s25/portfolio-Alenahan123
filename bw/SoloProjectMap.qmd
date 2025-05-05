@@ -38,7 +38,8 @@ ggplot(china_map) +
   geom_sf(aes(fill = log10(pop_density)), color = "white", size = 0.2) + 
   scale_fill_viridis_c(option = "inferno", na.value = "gray90", direction = -1) +  
   labs(
-    title = "Population Density of Chinese Provinces (log scale)",
+    title = "Population Density of 
+    Chinese Provinces (log scale)",
     fill = "log10(People / km²)",
     caption = "Data source: China Provinces Population Dataset| Created by Alena Han | April 1, 2025"
   ) +
@@ -51,4 +52,11 @@ ggplot(china_map) +
 
 ```
 
+>Figure Description:
+This choropleth map visualizes the population density of Chinese provinces using a logarithmic scale (log10) of people per square kilometer. The data is mapped onto province boundaries with color gradients ranging from light yellow (low density) to dark purple/black (high density), corresponding to the log-transformed population density values. Eastern coastal provinces such as Shanghai, Beijing, and Jiangsu show the highest population densities, while western and southwestern regions such as Tibet, Qinghai, and Xinjiang have significantly lower densities.
 
+>The spatial data is sourced from a shapefile (china.shp), and population data from the "China Provinces Population Dataset." Province names were harmonized using a key that maps English names to Chinese equivalents for merging purposes.
+
+>Data source: China Provinces Population Dataset
+Created by: Alena Han
+Date: April 1, 2025

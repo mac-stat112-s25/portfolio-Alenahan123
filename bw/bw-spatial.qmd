@@ -3,9 +3,7 @@ title: "Spatial Viz"
 ---
 
 Use this file to generate a professional looking **spatial** visualization.  The visualization will not perfect the first time but you are expected to improve on it throughout the semester especially after covering advanced topics such as effective viz.
----
-title: "Spatial Viz"
----
+
 ```{r}
 # Option 1: tidytuesdayR package 
 ## install.packages("tidytuesdayR")
